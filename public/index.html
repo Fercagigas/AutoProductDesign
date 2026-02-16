@@ -58,6 +58,22 @@
       .spring-btn:active {
         transform: scale(0.97);
       }
+      .status-dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 9999px;
+        background: #3f3f46;
+        box-shadow: 0 0 0 0 rgba(16,185,129,0.5);
+      }
+      .status-dot.live {
+        background: #10B981;
+        animation: pulse 1.6s infinite;
+      }
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.55); }
+        70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+        100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+      }
     </style>
   </head>
   <body class="noise min-h-screen font-mono">
@@ -91,8 +107,19 @@
             <dl class="mt-4 space-y-2 text-sm">
               <div class="flex justify-between"><dt class="text-zinc-400">Iteración</dt><dd id="iteration">0</dd></div>
               <div class="flex justify-between"><dt class="text-zinc-400">Human Review</dt><dd id="humanReview">No</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-400">Workflow</dt><dd id="workflowStatus" class="text-zinc-200">Idle</dd></div>
               <div><dt class="mb-1 text-zinc-400">Vision</dt><dd id="vision" class="text-xs leading-relaxed text-zinc-200">Sin definir</dd></div>
             </dl>
+          </section>
+
+          <section class="glass rounded-2xl p-5">
+            <h2 class="font-outfit text-lg font-bold tracking-[-0.02em]">Acciones rápidas</h2>
+            <p class="mt-1 text-xs text-zinc-400">Atajos para acelerar prompts frecuentes.</p>
+            <div id="quickPrompts" class="mt-3 grid gap-2">
+              <button data-prompt="Quiero definir la visión de una app SaaS B2B. Ayúdame con objetivos y usuarios clave." class="rounded-lg border border-zinc-700/80 bg-black/20 px-3 py-2 text-left text-xs text-zinc-200 transition hover:border-accent/60 hover:text-accent">Definir visión de producto</button>
+              <button data-prompt="Ready. Continúa con el siguiente debate y detalla riesgos técnicos prioritarios." class="rounded-lg border border-zinc-700/80 bg-black/20 px-3 py-2 text-left text-xs text-zinc-200 transition hover:border-accent/60 hover:text-accent">Continuar debate técnico</button>
+              <button data-prompt="Necesito feedback de revisión humana: prioriza time-to-market y seguridad del MVP." class="rounded-lg border border-zinc-700/80 bg-black/20 px-3 py-2 text-left text-xs text-zinc-200 transition hover:border-accent/60 hover:text-accent">Enviar human review</button>
+            </div>
           </section>
 
           <section class="glass rounded-2xl p-5">
@@ -100,6 +127,17 @@
             <ul id="docs" class="mt-3 space-y-2 text-sm text-success"></ul>
           </section>
         </aside>
+      </section>
+
+      <section class="mt-6 flex flex-col gap-3 rounded-2xl border border-zinc-800/80 bg-zinc-950/40 px-4 py-3 text-xs text-zinc-300 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-center gap-2">
+          <span id="statusDot" class="status-dot" aria-hidden="true"></span>
+          <span id="connectionStatus">Conectado. Listo para enviar instrucciones.</span>
+        </div>
+        <div class="flex items-center gap-4 text-zinc-400">
+          <span id="charCounter">0 caracteres</span>
+          <span id="messageCounter">0 mensajes</span>
+        </div>
       </section>
     </main>
 
