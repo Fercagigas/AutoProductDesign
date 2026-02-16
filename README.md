@@ -1,35 +1,45 @@
-# AutoProductDesign - Agent System
+# AutoProductDesign // Web Edition
 
-This project uses a multi-agent system orchestrated by LangGraph to design and document software projects in ultra-high detail.
+Migración completa desde CLI en Python a aplicación web full-stack en JavaScript.
 
-## Features
-- **Orchestrator**: Aligns with your vision.
-- **Debate Team**: 3 Personas (Architect, PM, QA) debate implementation details.
-- **Human-in-the-Loop**: pauses every 3 debate iterations for your feedback.
-- **Scribe**: Generates detailed markdown documentation after 9 iterations.
-- **Cost-Effective**: Configured to use free models via OpenRouter.
+## Stack
+- **Backend**: Node.js + Express
+- **Frontend**: HTML + CSS + JS (sin frameworks pesados)
+- **UI utilities**: Tailwind CSS (CDN) + Lucide Icons
+- **LLM provider**: OpenRouter (opcional, con fallback local)
 
-## Setup
+## Ejecución
 
-1.  **Install Dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+npm install
+npm start
+```
 
-2.  **Configuration**:
-    -   Copy `.env.example` to `.env`
-    -   Get your free API key from [OpenRouter](https://openrouter.ai/)
-    -   Set `OPENROUTER_API_KEY` in `.env`
+Servidor en: `http://localhost:3000`
 
-3.  **Run**:
-    ```bash
-    python main.py
-    ```
-    Or simply double-click `run_app.bat`.
+## Variables de entorno
 
-## Usage
-1.  Describe your project when prompted.
-2.  Answer the Orchestrator's questions until the vision is confirmed.
-3.  Watch the agents debate.
-4.  Provide feedback when the system pauses (every 3 iterations).
-5.  Find your documentation in the `output/` folder.
+1. Copia `.env.example` a `.env`
+2. Configura tu llave de OpenRouter
+
+```bash
+cp .env.example .env
+```
+
+## Flujo funcional
+
+1. Usuario describe el proyecto en la interfaz web.
+2. **Orchestrator** construye y confirma visión (`VISION_CONFIRMED:`).
+3. **Debater** ejecuta iteraciones de debate técnico.
+4. Cada 3 iteraciones se solicita **human review**.
+5. En la iteración 9, **Scribe** genera documentación en `output/`:
+   - `requirements.md`
+   - `architecture.md`
+   - `api_specs.md`
+   - `implementation_plan.md`
+
+## Tests
+
+```bash
+npm test
+```
