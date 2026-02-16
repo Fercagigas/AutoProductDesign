@@ -14,13 +14,13 @@ const roleClass = {
   assistant: 'border-accent/40 bg-accent/5'
 };
 
-function appendMessage(role, content) {
+function appendMessage(role, content, label) {
   const bubble = document.createElement('article');
   bubble.className = `stagger-item rounded-xl border p-3 text-sm leading-relaxed ${roleClass[role] || roleClass.assistant}`;
 
   const title = document.createElement('p');
   title.className = 'mb-2 text-xs uppercase tracking-[0.18em] text-zinc-400';
-  title.textContent = role === 'user' ? 'User Input' : 'System Output';
+  title.textContent = role === 'user' ? 'User Input' : label || 'System Output';
 
   const body = document.createElement('pre');
   body.className = 'whitespace-pre-wrap font-mono text-xs md:text-sm';
@@ -74,7 +74,8 @@ form.addEventListener('submit', async (event) => {
 
     data.events.forEach((evt, idx) => {
       setTimeout(() => {
-        appendMessage('assistant', `[${evt.node}]\n${evt.message.content}`);
+        const label = evt.agent ? evt.node : evt.node;
+        appendMessage('assistant', `[${evt.node}]\n${evt.message.content}`, label);
       }, idx * 130);
     });
 
