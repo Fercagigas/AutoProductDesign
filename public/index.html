@@ -28,6 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
       body {
         background: #0A0A0F;
@@ -74,6 +75,29 @@
         70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
         100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
       }
+      /* Markdown rendered content */
+      .md-body h1 { font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0 0.4rem; color: #F59E0B; }
+      .md-body h2 { font-size: 1.1rem; font-weight: 700; margin: 0.6rem 0 0.35rem; color: #F59E0B; }
+      .md-body h3 { font-size: 0.95rem; font-weight: 600; margin: 0.5rem 0 0.3rem; color: #fbbf24; }
+      .md-body h4, .md-body h5, .md-body h6 { font-size: 0.875rem; font-weight: 600; margin: 0.4rem 0 0.25rem; color: #fbbf24; }
+      .md-body p { margin: 0.35rem 0; line-height: 1.65; }
+      .md-body ul, .md-body ol { margin: 0.35rem 0 0.35rem 1.25rem; }
+      .md-body ul { list-style: disc; }
+      .md-body ol { list-style: decimal; }
+      .md-body li { margin: 0.15rem 0; line-height: 1.55; }
+      .md-body li::marker { color: #F59E0B; }
+      .md-body strong { color: #fbbf24; font-weight: 600; }
+      .md-body em { color: #d4d4d8; font-style: italic; }
+      .md-body code { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 4px; padding: 0.1em 0.35em; font-size: 0.85em; color: #fbbf24; }
+      .md-body pre { background: rgba(0,0,0,0.4); border: 1px solid rgba(63,63,70,0.5); border-radius: 8px; padding: 0.75rem 1rem; margin: 0.5rem 0; overflow-x: auto; }
+      .md-body pre code { background: none; border: none; padding: 0; color: #e4e4e7; font-size: 0.8rem; }
+      .md-body blockquote { border-left: 3px solid #F59E0B; padding-left: 0.75rem; margin: 0.5rem 0; color: #a1a1aa; }
+      .md-body hr { border: none; border-top: 1px solid rgba(63,63,70,0.5); margin: 0.75rem 0; }
+      .md-body a { color: #F59E0B; text-decoration: underline; text-underline-offset: 2px; }
+      .md-body table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.8rem; }
+      .md-body th { background: rgba(245,158,11,0.1); border: 1px solid rgba(63,63,70,0.5); padding: 0.35rem 0.5rem; text-align: left; color: #fbbf24; font-weight: 600; }
+      .md-body td { border: 1px solid rgba(63,63,70,0.5); padding: 0.35rem 0.5rem; }
+      .md-body img { max-width: 100%; border-radius: 8px; }
     </style>
   </head>
   <body class="noise min-h-screen font-mono">

@@ -18,6 +18,14 @@ const submitButton = form.querySelector('button[type="submit"]');
 
 let totalMessages = 0;
 
+// Configure marked for safe rendering
+if (window.marked) {
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+  });
+}
+
 const statusLabels = {
   awaiting_vision: 'Esperando definición de visión',
   debating: 'Debate en curso',
@@ -71,9 +79,15 @@ function appendMessage(role, content, sourceNode = null) {
     title.textContent = 'System Output';
   }
 
-  const body = document.createElement('pre');
-  body.className = 'whitespace-pre-wrap font-mono text-xs md:text-sm';
-  body.textContent = content;
+  const body = document.createElement('div');
+  body.className = 'md-body text-xs md:text-sm';
+  if (role === 'user') {
+    body.textContent = content;
+  } else if (window.marked) {
+    body.innerHTML = marked.parse(content);
+  } else {
+    body.textContent = content;
+  }
 
   head.append(avatar, title);
   bubble.append(head, body);
