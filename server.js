@@ -11,8 +11,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: "1mb" }));
-app.use(express.static(join(__dirname, "public")));
+app.use(express.json({ limit: '1mb' }));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const sessions = new Map();
 
