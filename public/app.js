@@ -25,25 +25,60 @@ const statusLabels = {
   completed: 'Workflow completado'
 };
 
+const nodeLabel = {
+  orchestrator: 'Orchestrator',
+  debater: 'Debater',
+  human_review: 'Human Review',
+  scribe: 'Scribe'
+};
+
+const avatarByNode = {
+  orchestrator: '/assets/avatares/architect_system.svg',
+  debater: '/assets/avatares/tech_lead.svg',
+  human_review: '/assets/avatares/analyst_business.svg',
+  scribe: '/assets/avatares/designer_ux.svg',
+  assistant: '/assets/avatares/architect.svg',
+  user: '/assets/avatares/product_manager.svg'
+};
+
 const roleClass = {
   user: 'border-zinc-700 bg-zinc-900/80',
   assistant: 'border-accent/40 bg-accent/5'
 };
 
-function appendMessage(role, content) {
+function appendMessage(role, content, sourceNode = null) {
   const bubble = document.createElement('article');
   bubble.className = `stagger-item rounded-xl border p-3 text-sm leading-relaxed ${roleClass[role] || roleClass.assistant}`;
 
+  const head = document.createElement('div');
+  head.className = 'mb-2 flex items-center gap-2';
+
+  const avatar = document.createElement('img');
+  const avatarNode = sourceNode || role;
+  avatar.src = avatarByNode[avatarNode] || avatarByNode.assistant;
+  avatar.alt = `Avatar ${avatarNode}`;
+  avatar.className = 'h-6 w-6 rounded-full border border-zinc-700/80 bg-zinc-900/80 p-0.5';
+  avatar.loading = 'lazy';
+
   const title = document.createElement('p');
-  title.className = 'mb-2 text-xs uppercase tracking-[0.18em] text-zinc-400';
-  title.textContent = role === 'user' ? 'User Input' : 'System Output';
+  title.className = 'text-xs uppercase tracking-[0.18em] text-zinc-400';
+
+  if (role === 'user') {
+    title.textContent = 'User Input';
+  } else if (sourceNode) {
+    title.textContent = nodeLabel[sourceNode] || sourceNode;
+  } else {
+    title.textContent = 'System Output';
+  }
 
   const body = document.createElement('pre');
   body.className = 'whitespace-pre-wrap font-mono text-xs md:text-sm';
   body.textContent = content;
 
-  bubble.append(title, body);
+  head.append(avatar, title);
+  bubble.append(head, body);
   feed.appendChild(bubble);
+
   totalMessages += 1;
   messageCounter.textContent = `${totalMessages} mensajes`;
 
@@ -141,7 +176,7 @@ form.addEventListener('submit', async (event) => {
 
     data.events.forEach((evt, idx) => {
       setTimeout(() => {
-        appendMessage('assistant', `[${evt.node}]\n${evt.message.content}`);
+        appendMessage('assistant', evt.message.content, evt.node);
       }, idx * 130);
     });
 
@@ -157,7 +192,7 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
-appendMessage('assistant', 'Inicializado. Describe tu idea y comenzaré a construir la visión del producto.');
+appendMessage('assistant', 'Inicializado. Describe tu idea y comenzaré a construir la visión del producto.', 'orchestrator');
 renderSummary({ iterationCount: 0, pendingHumanReview: false, projectVision: '', docs: [] });
 if (window.lucide) {
   window.lucide.createIcons();
